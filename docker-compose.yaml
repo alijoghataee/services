@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18.0
-    container_name: vlearn-postgres
+    container_name: postgres
     restart: always
     ports:
       - "5432:5432"
@@ -10,9 +10,9 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     volumes:
-      - ./storage/postgres:/var/lib/postgresql/data
+      - ./storage/postgres:/var/lib/postgresql
     networks:
-      - vlearn
+      - default
 
 #  mongo:
 #    image: mongo:8.0.5-noble
@@ -30,18 +30,18 @@ services:
 
   redis:
     image: redis:8.2.2
-    container_name: vlearn-redis
+    container_name: redis
     restart: always
     ports:
       - "6379:6379"
     volumes:
       - ./storage/redis:/data
     networks:
-      - vlearn
+      - default
 
   rabbitmq:
     image: rabbitmq:4.2-rc
-    container_name: vlearn-rabbitmq
+    container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
@@ -51,11 +51,11 @@ services:
     volumes:
       - ./storage/rabbitmq:/var/lib/rabbitmq
     networks:
-      vlearn:
+      default:
 
   minio:
     image: minio/minio:RELEASE.2024-12-18T13-15-44Z.fips
-    container_name: vlearn-minio
+    container_name: minio
     restart: always
     ports:
       - "9000:9000"
@@ -67,7 +67,7 @@ services:
       - ./storage/minio:/data
     command: server /data --console-address ":9001"
     networks:
-      - vlearn
+      - default
 
 networks:
-  vlearn:
+  default:
