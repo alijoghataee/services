@@ -41,6 +41,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:4.2-rc
+    hostname: 'rabbitmq'
     container_name: rabbitmq
     restart: always
     ports:
