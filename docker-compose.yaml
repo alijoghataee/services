@@ -40,12 +40,13 @@ services:
       - default
 
   rabbitmq:
-    image: rabbitmq:4.2-rc
+    image: rabbitmq:4.2-rc-management
     hostname: 'rabbitmq'
     container_name: rabbitmq
     restart: always
     ports:
       - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
