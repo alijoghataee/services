@@ -71,5 +71,17 @@ services:
     networks:
       - default
 
+  nginx:
+    image: nginx:1.29.2
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - default
+
 networks:
   default:
+    name: "app"
