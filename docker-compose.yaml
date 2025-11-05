@@ -14,20 +14,6 @@ services:
     networks:
       - default
 
-#  mongo:
-#    image: mongo:8.0.5-noble
-#    container_name: mongo
-#    restart: always
-#    ports:
-#      - "27017:27017"
-#    volumes:
-#      - ./storage/mongo:/data/db
-#    environment:
-#      MONGODB_INITDB_ROOT_USERNAME: admin
-#      MONGODB_INITDB_ROOT_PASSWORD: admin
-#    networks:
-#      - default
-
   redis:
     image: redis:7.2
     container_name: redis
