@@ -39,7 +39,6 @@ All containers are attached to a custom network called `app`.
 
 - Make sure ports `5432`, `6379`, `5672`, `15672`, `9000`, `9001`, `80`, and `443` are free on your host machine.
 - Nginx configuration is mapped from `./conf/nginx`. Update `nginx.conf` or `default.conf` as needed.
-- SSL certificates should be placed in `./certs`.
 - This setup can be used for both **dockerized** and **non-dockerized** projects. You can connect your local apps directly to these services without needing Docker for the app itself.
 
 ### minio tip:
