@@ -1,4 +1,4 @@
-# Backend Developer Docker Start Kit
+# Backend Start Kit
 
 This project provides a ready-to-use Docker Compose setup for backend developers. It includes common services like **PostgreSQL**, **Redis**, **RabbitMQ**, **MinIO**, and **Nginx**, all pre-configured for local development.
 
