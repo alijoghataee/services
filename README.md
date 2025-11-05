@@ -18,8 +18,14 @@ This project provides a ready-to-use Docker Compose setup for backend developers
 git clone git@github.com:alijoghataee/services.git
 cd services
 ```
+2. Generate ssl certificate (if you want)
 
-2. Start services using Docker Compose:
+```shell
+chmod +x cert.sh
+./cert.sh
+```
+
+3. Start services using Docker Compose:
 
 `docker compose up -d`
 
