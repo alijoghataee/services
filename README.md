@@ -1,14 +1,6 @@
 # Backend Developer Docker Start Kit
 
-This project provides a ready-to-use Docker Compose setup for backend developers. It includes common services like PostgreSQL, Redis, RabbitMQ, MinIO, and Nginx, all pre-configured for local development.
-
-## Services
-
-#### PostgreSQL
-#### Redis
-#### RabbitMQ
-#### MinIO
-#### Nginx
+This project provides a ready-to-use Docker Compose setup for backend developers. It includes common services like **PostgreSQL**, **Redis**, **RabbitMQ**, **MinIO**, and **Nginx**, all pre-configured for local development.
 
 ## Getting Started
 
@@ -49,6 +41,31 @@ All containers are attached to a custom network called `app`.
 - Nginx configuration is mapped from `./conf/nginx`. Update `nginx.conf` or `default.conf` as needed.
 - SSL certificates should be placed in `./certs`.
 - This setup can be used for both **dockerized** and **non-dockerized** projects. You can connect your local apps directly to these services without needing Docker for the app itself.
+
+### minio tip:
+if you want to use docker and nginx for your local project, use http://minio:9000 for write and nginx server_name (e.g. http://s3.localhost) for serve
+
+django example:
+```python
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": dict(
+            access_key="minioadmin",
+            secret_key="minioadmin",
+            bucket_name="your_bucket_name",
+            default_acl="public-read",
+            file_overwrite=False,
+            location="your_location",
+            endpoint_url="http://minio:9000",
+            querystring_auth=False,
+            custom_domain="http://s3.localhost/",
+            url_protocol="http:",
+
+        )
+    }
+}
+```
 
 ## Contributing
 
