@@ -57,20 +57,20 @@ services:
     networks:
       - default
 
-  mongodb:
-    image: mongo:8.0.5-noble
-    container_name: ${MONGO_CONTAINER_NAME}
-    restart: always
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    volumes:
-      - ./storage/mongo:/data/db
-    networks:
-      - default
+#  mongodb:
+#    image: mongo:8.0.5-noble
+#    container_name: ${MONGO_CONTAINER_NAME}
+#    restart: always
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+#      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+#    volumes:
+#      - ./storage/mongo:/data/db
+#    networks:
+#      - default
 
   nginx:
     image: nginx:1.29.2
@@ -85,6 +85,33 @@ services:
       - ./certs:/etc/nginx/certs:ro
     networks:
       - default
+
+  prometheus:
+    image: prom/prometheus
+    container_name: ${PROMETHEUS_CONTAINER_NAME}
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./conf/prometheus:/etc/prometheus
+#      - ./storage/prometheus:/prometheus # in the case using your volumes instead of docker, make sure set owner of the volume 65534:65534
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    container_name: ${GRAFANA_CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+#      - ./storage/grafana:/var/lib/grafana # in the case using your volumes instead of docker, make sure set owner of the volume 472:472
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  prometheus_data:
+  grafana_data:
 
 networks:
   default:
