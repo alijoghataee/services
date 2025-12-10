@@ -24,12 +24,17 @@ chmod +x cert.sh
 
 ## Volumes and Persistence
 
-All services are configured with volumes under `./storage/` to keep data persistent between container restarts.
+Most services are configured with volumes under `./storage/` to keep data persistent between container restarts.
 
 - PostgreSQL: `./storage/postgres`
 - Redis: `./storage/redis`
 - RabbitMQ: `./storage/rabbitmq`
 - MinIO: `./storage/minio`
+- MongoDB: `./storage/mongo`
+
+This service uses a Docker volume due to the permissions it requires, which are detailed in [docker-compose.yaml](./docker-compose.yaml).
+- Prometheus: `prometheus_data`
+- Grafana: `grafana_data`
 
 ## Network
 
@@ -37,8 +42,9 @@ All containers are attached to a custom network called `app`.
 
 ## Notes
 
-- Make sure ports `5432`, `6379`, `5672`, `15672`, `9000`, `9001`, `80`, and `443` are free on your host machine.
+- Make sure ports `5432`, `6379`, `5672`, `15672`, `9000`, `9001`, `27017`, `9090`, `3000`, `80`, and `443` are free on your host machine.
 - Nginx configuration is mapped from `./conf/nginx`. Update `nginx.conf` or `default.conf` as needed.
+- Prometheus configuration is mapped from `./conf/prometheus`. Update `prometheus.yaml` as needed.
 - This setup can be used for both **dockerized** and **non-dockerized** projects. You can connect your local apps directly to these services without needing Docker for the app itself.
 
 ### minio tip:

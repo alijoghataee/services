@@ -14,4 +14,4 @@ scrape_configs:
     honor_timestamps: true
     static_configs:
       - targets:
-          - 172.17.0.1:8000
+          - 172.17.0.1:8000 # django project running on local machine

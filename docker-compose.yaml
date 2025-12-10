@@ -57,20 +57,20 @@ services:
     networks:
       - default
 
-#  mongodb:
-#    image: mongo:8.0.5-noble
-#    container_name: ${MONGO_CONTAINER_NAME}
-#    restart: always
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-#      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-#    volumes:
-#      - ./storage/mongo:/data/db
-#    networks:
-#      - default
+  mongodb:
+    image: mongo:8.0.5-noble
+    container_name: ${MONGO_CONTAINER_NAME}
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - ./storage/mongo:/data/db
+    networks:
+      - default
 
   nginx:
     image: nginx:1.29.2
