@@ -131,8 +131,6 @@ services:
 #      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 # where client can access to kafka
 #      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 #
-#      KAFKA_LOG_DIRS: ./var/log/kafka
-#
 #    volumes:
 #      - ./storage/kafka:/var/lib/kafka/data # in the case using your volumes instead of docker, make sure set owner of the volume 1000:1000
 ##      - kafka_data:/var/lib/kafka/data
