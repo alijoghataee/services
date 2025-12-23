@@ -113,31 +113,31 @@ services:
 #    networks:
 #      - default
 
-  kafka:
-    image: confluentinc/cp-kafka:7.8.6
-    container_name: ${KAFKA_CONTAINER_NAME}
-    ports:
-      - "9092:9092"
-    environment:
-      CLUSTER_ID: ${KAFKA_CLUSTER_ID}
-      KAFKA_NODE_ID: 1
-
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093 # add if any other controllers exits. in the case active controller break
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # metadata copies. usually equals to nodes count
-
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 # plaintext for producer and consumer, controller for controllers nodes
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 # where client can access to kafka
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-
-      KAFKA_LOG_DIRS: ./var/log/kafka
-
-    volumes:
-      - ./storage/kafka:/var/lib/kafka/data # in the case using your volumes instead of docker, make sure set owner of the volume 1000:1000
-#      - kafka_data:/var/lib/kafka/data
-    networks:
-      - default
+#  kafka:
+#    image: confluentinc/cp-kafka:7.8.6
+#    container_name: ${KAFKA_CONTAINER_NAME}
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      CLUSTER_ID: ${KAFKA_CLUSTER_ID}
+#      KAFKA_NODE_ID: 1
+#
+#      KAFKA_PROCESS_ROLES: broker,controller
+#      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093 # add if any other controllers exits. in the case active controller break
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # metadata copies. usually equals to nodes count
+#
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+#      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 # plaintext for producer and consumer, controller for controllers nodes
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 # where client can access to kafka
+#      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+#
+#      KAFKA_LOG_DIRS: ./var/log/kafka
+#
+#    volumes:
+#      - ./storage/kafka:/var/lib/kafka/data # in the case using your volumes instead of docker, make sure set owner of the volume 1000:1000
+##      - kafka_data:/var/lib/kafka/data
+#    networks:
+#      - default
 
 
 #volumes:
