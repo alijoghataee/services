@@ -35,3 +35,8 @@ PROMETHEUS_CONTAINER_NAME="prometheus"
 
 # Grafana
 GRAFANA_CONTAINER_NAME="grafana"
+
+# Kafka
+KAFKA_CONTAINER_NAME="kafka"
+
+KAFKA_CLUSTER_ID="cluster-1"

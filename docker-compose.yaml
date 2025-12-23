@@ -57,20 +57,20 @@ services:
     networks:
       - default
 
-  mongodb:
-    image: mongo:8.0.5-noble
-    container_name: ${MONGO_CONTAINER_NAME}
-    restart: always
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    volumes:
-      - ./storage/mongo:/data/db
-    networks:
-      - default
+#  mongodb:
+#    image: mongo:8.0.5-noble
+#    container_name: ${MONGO_CONTAINER_NAME}
+#    restart: always
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+#      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+#      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+#    volumes:
+#      - ./storage/mongo:/data/db
+#    networks:
+#      - default
 
   nginx:
     image: nginx:1.29.2
@@ -86,32 +86,64 @@ services:
     networks:
       - default
 
-  prometheus:
-    image: prom/prometheus
-    container_name: ${PROMETHEUS_CONTAINER_NAME}
-    restart: unless-stopped
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yaml'
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./conf/prometheus:/etc/prometheus
-#      - ./storage/prometheus:/prometheus # in the case using your volumes instead of docker, make sure set owner of the volume 65534:65534
-      - prometheus_data:/prometheus
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: ${PROMETHEUS_CONTAINER_NAME}
+#    restart: unless-stopped
+#    command:
+#      - '--config.file=/etc/prometheus/prometheus.yaml'
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./conf/prometheus:/etc/prometheus
+##      - ./storage/prometheus:/prometheus # in the case using your volumes instead of docker, make sure set owner of the volume 65534:65534
+#      - prometheus_data:/prometheus
+#    networks:
+#      - default
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: ${GRAFANA_CONTAINER_NAME}
+#    restart: unless-stopped
+#    ports:
+#      - "3000:3000"
+#    volumes:
+##      - ./storage/grafana:/var/lib/grafana # in the case using your volumes instead of docker, make sure set owner of the volume 472:472
+#      - grafana_data:/var/lib/grafana
+#    networks:
+#      - default
 
-  grafana:
-    image: grafana/grafana
-    container_name: ${GRAFANA_CONTAINER_NAME}
-    restart: unless-stopped
+  kafka:
+    image: confluentinc/cp-kafka:7.8.6
+    container_name: ${KAFKA_CONTAINER_NAME}
     ports:
-      - "3000:3000"
-    volumes:
-#      - ./storage/grafana:/var/lib/grafana # in the case using your volumes instead of docker, make sure set owner of the volume 472:472
-      - grafana_data:/var/lib/grafana
+      - "9092:9092"
+    environment:
+      CLUSTER_ID: ${KAFKA_CLUSTER_ID}
+      KAFKA_NODE_ID: 1
 
-volumes:
-  prometheus_data:
-  grafana_data:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093 # add if any other controllers exits. in the case active controller break
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 # metadata copies. usually equals to nodes count
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 # plaintext for producer and consumer, controller for controllers nodes
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092 # where client can access to kafka
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      KAFKA_LOG_DIRS: ./var/log/kafka
+
+    volumes:
+      - ./storage/kafka:/var/lib/kafka/data # in the case using your volumes instead of docker, make sure set owner of the volume 1000:1000
+#      - kafka_data:/var/lib/kafka/data
+    networks:
+      - default
+
+
+#volumes:
+#  prometheus_data:
+#  grafana_data:
+#  kafka_data:
 
 networks:
   default:
